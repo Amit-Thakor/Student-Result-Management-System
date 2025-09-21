@@ -15,7 +15,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { BackendStatus } from "@/components/ui/BackendStatus";
 import { useAuth } from "@/lib/auth";
-import toast from "react-hot-toast";
 import swal from "@/lib/sweetAlert";
 import Swal from "sweetalert2";
 
@@ -44,11 +43,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("🚀 Login Form Submitted");
-    console.log("📝 Form Data:", formData);
-
     if (!formData.email || !formData.password) {
-      console.log("⚠️ Missing form data");
       await swal.warning(
         "Missing Information",
         "Please fill in all fields to continue."
@@ -64,15 +59,12 @@ export default function LoginPage() {
 
     try {
       // First, test backend connection
-      console.log("🔗 Testing backend connection...");
       try {
         const testResponse = await fetch('http://localhost:8000');
         if (!testResponse.ok) {
           throw new Error(`Backend not responding: ${testResponse.status}`);
         }
-        console.log("✅ Backend connection successful");
       } catch (connectionError) {
-        console.error("❌ Backend connection failed:", connectionError);
         await swal.error(
           "Connection Error",
           "Cannot connect to the backend server. Please ensure the PHP backend is running on http://localhost:8000. You can start it by running 'start-servers.bat' or manually with 'cd backend && php -S localhost:8000'."
@@ -96,7 +88,6 @@ export default function LoginPage() {
         );
       }
     } catch (error) {
-      console.error("Login error:", error);
       await swal.error(
         "Login Failed",
         "Unable to sign in. Please check your connection and try again."
@@ -108,7 +99,6 @@ export default function LoginPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(`📝 Input changed: ${name} = ${value}`);
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -121,17 +111,7 @@ export default function LoginPage() {
   ];
 
   const fillDemoCredentials = (email: string, password: string) => {
-    console.log(`🎯 Filling demo credentials: ${email}`);
     setFormData({ email, password });
-    // Also update the actual input fields
-    const emailInput = document.querySelector(
-      'input[name="email"]'
-    ) as HTMLInputElement;
-    const passwordInput = document.querySelector(
-      'input[name="password"]'
-    ) as HTMLInputElement;
-    if (emailInput) emailInput.value = email;
-    if (passwordInput) passwordInput.value = password;
   };
 
   const handleForgotPassword = async () => {

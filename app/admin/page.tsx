@@ -158,7 +158,13 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Grade Distribution */}
           <EnhancedGradeChart
-            data={stats?.gradeDistribution || []}
+            data={(stats?.gradeDistribution || []).map(item => ({
+              ...item,
+              color: item.grade === 'A+' ? '#10b981' : 
+                     item.grade === 'A' ? '#22c55e' :
+                     item.grade === 'B+' ? '#3b82f6' :
+                     item.grade === 'B' ? '#6366f1' : '#8b5cf6'
+            }))}
             title="Grade Distribution Overview"
             type="pie"
           />

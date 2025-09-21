@@ -32,39 +32,51 @@ export const useAuth = create<AuthState>()(
         set({ isLoading: true });
 
         try {
-          console.log("🔐 Auth: Starting login process");
-          console.log("📧 Email:", email);
-          console.log("🔗 API Base URL:", "http://localhost:8000");
+          const testResponse = await fetch(`${api.getBaseUrl()}`, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
+          });
           
-          const response = await api.auth.login(email, password);
-          console.log("📡 Auth: API Response received:", response);
+          if (!testResponse.ok) {
+            throw new Error(`Backend not responding: ${testResponse.status}`);
+          }
 
-          if (response.success && response.data) {
-            const { user, token } = response.data;
-            console.log("✅ Auth: Login successful!");
-            console.log("👤 User:", user);
-            console.log("🎫 Token:", token.substring(0, 50) + "...");
-            
-            // Set token in API client
-            api.setToken(token);
+          const response = await fetch(`${api.getBaseUrl()}/auth/login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            mode: 'cors',
+            cache: 'no-cache',
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!response.ok) {
+            set({ isLoading: false });
+            return false;
+          }
+
+          const data = await response.json();
+
+          if (data.success && data.data) {
+            const { user, token } = data.data;
             set({
               user,
               token,
               isLoading: false,
             });
+            api.setToken(token);
             return true;
           } else {
-            console.log("❌ Auth: Login failed - invalid response");
-            console.log("📄 Response details:", response);
             set({ isLoading: false });
             return false;
           }
         } catch (error) {
-          console.error("💥 Auth: Login error:", error);
-          console.error("🔍 Error details:", {
-            message: error instanceof Error ? error.message : 'Unknown error',
-            stack: error instanceof Error ? error.stack : undefined
-          });
+          if (process.env.NODE_ENV === "development") {
+            console.error("Auth: Login error:", error);
+          }
           set({ isLoading: false });
           return false;
         }

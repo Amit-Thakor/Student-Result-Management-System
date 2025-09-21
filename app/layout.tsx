@@ -1,53 +1,26 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { Toaster } from "react-hot-toast";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: 'swap',
+  variable: '--font-inter'
+});
 
 export const metadata: Metadata = {
   title: {
     default: "Student Result Management System",
-    template: "%s | SRMS",
+    template: "%s | StudentMS"
   },
-  description:
-    "Professional student result management system with modern UI/UX, comprehensive analytics, and role-based access control.",
-  keywords: [
-    "student",
-    "results",
-    "management",
-    "education",
-    "grades",
-    "academic",
-    "school",
-    "university",
-  ],
-  authors: [{ name: "SRMS Team" }],
-  creator: "SRMS",
-  publisher: "SRMS",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL("http://localhost:3000"),
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "http://localhost:3000",
-    title: "Student Result Management System",
-    description:
-      "Professional student result management system with modern UI/UX",
-    siteName: "SRMS",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Student Result Management System",
-    description:
-      "Professional student result management system with modern UI/UX",
-  },
+  description: "Modern student result management system for educational institutions. Track academic progress, manage courses, and generate comprehensive reports with ease.",
+  keywords: ["student management", "academic results", "education technology", "school management system"],
+  authors: [{ name: "StudentMS Team" }],
+  creator: "StudentMS",
+  publisher: "StudentMS",
   robots: {
     index: true,
     follow: true,

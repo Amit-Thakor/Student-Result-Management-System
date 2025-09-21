@@ -83,45 +83,35 @@ export default function StudentsPage() {
     );
 
     if (result.isConfirmed) {
-      const loadingAlert = swal.loading("Deleting student...");
+      swal.loading("Deleting student...");
       try {
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        loadingAlert.close();
-        swal.success(
-          "Deleted!",
-          `${student.name} has been deleted successfully.`
-        );
+        await swal.success("Student Deleted!", "The student has been deleted successfully.");
         fetchStudents();
       } catch (error) {
-        loadingAlert.close();
-        swal.error("Error!", "Failed to delete student. Please try again.");
+        await swal.error("Error", "Failed to delete student. Please try again.");
       }
     }
   };
 
   const handleFormSubmit = async (data: Partial<Student>) => {
-    const loadingAlert = swal.loading(
+    swal.loading(
       isEditing ? "Updating student..." : "Creating student..."
     );
 
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      loadingAlert.close();
-
       if (isEditing && selectedStudent) {
-        swal.success("Updated!", `${data.name} has been updated successfully.`);
+        await swal.success("Student Updated!", "The student has been updated successfully.");
       } else {
-        swal.success("Created!", `${data.name} has been added successfully.`);
+        await swal.success("Student Created!", "The student has been created successfully.");
       }
 
       setShowForm(false);
       fetchStudents();
     } catch (error) {
-      loadingAlert.close();
-      swal.error(
+      await swal.error(
         "Error!",
         isEditing ? "Failed to update student" : "Failed to create student"
       );

@@ -215,11 +215,25 @@ tests/
 *.tmp
 *.temp
 
-# Archive and backup files
+# Archives
 *.zip
 *.tar.gz
 *.rar
 *.7z
+
+# Temporary documentation files
+*_SUMMARY.md
+*_REPORT.md
+*_FINAL.md
+REFACTORING*.md
+CLEANUP*.md
+RESTORATION*.md
+
+# Local environment files (keep .env.example)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 *.bak
 *.backup
 

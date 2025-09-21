@@ -11,7 +11,6 @@ import api from "@/lib/api";
 import { Course, TableColumn } from "@/types";
 import { formatDate } from "@/lib/utils";
 import CourseForm from "@/components/forms/CourseForm";
-import toast from "react-hot-toast";
 import swal from "@/lib/sweetAlert";
 
 export default function CoursesPage() {
@@ -70,49 +69,35 @@ export default function CoursesPage() {
     );
 
     if (result.isConfirmed) {
-      const loadingAlert = swal.loading("Deleting course...");
+      swal.loading("Deleting course...");
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        loadingAlert.close();
-        swal.success(
-          "Deleted!",
-          `${course.course_name} has been deleted successfully.`
-        );
+        await swal.success("Course Deleted!", "The course has been deleted successfully.");
         fetchCourses();
       } catch (error) {
-        loadingAlert.close();
-        swal.error("Error!", "Failed to delete course. Please try again.");
+        await swal.error("Error", "Failed to delete course. Please try again.");
       }
     }
   };
 
   const handleFormSubmit = async (data: Partial<Course>) => {
-    const loadingAlert = swal.loading(
+    swal.loading(
       isEditing ? "Updating course..." : "Creating course..."
     );
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      loadingAlert.close();
-
       if (isEditing && selectedCourse) {
-        swal.success(
-          "Updated!",
-          `${data.course_name} has been updated successfully.`
-        );
+        await swal.success("Course Updated!", "The course has been updated successfully.");
       } else {
-        swal.success(
-          "Created!",
-          `${data.course_name} has been added successfully.`
-        );
+        await swal.success("Course Created!", "The course has been created successfully.");
       }
 
       setShowForm(false);
       fetchCourses();
     } catch (error) {
-      loadingAlert.close();
-      swal.error(
+      await swal.error(
         "Error!",
         isEditing ? "Failed to update course" : "Failed to create course"
       );

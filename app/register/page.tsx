@@ -124,20 +124,18 @@ export default function RegisterPage() {
 
     setLoading(true);
 
-    const loadingAlert = swal.loading(
-      "Creating your account...",
-      "Please wait while we process your registration."
-    );
-
     try {
+      swal.loading(
+        "Creating your account...",
+        "Please wait while we process your registration."
+      );
+
       const registrationData = {
         ...formData,
         role: userRole,
       };
 
       const response = await api.auth.register(registrationData);
-
-      loadingAlert.close();
 
       if (response.success) {
         await swal.success(
@@ -164,14 +162,13 @@ export default function RegisterPage() {
       } else {
         await swal.error(
           "Registration Failed",
-          response.message || "Something went wrong. Please try again."
+          "Unable to create your account. Please try again."
         );
       }
     } catch (error) {
-      loadingAlert.close();
       await swal.error(
         "Registration Failed",
-        "Unable to create your account. Please check your connection and try again."
+        "Unable to create your account. Please try again."
       );
     } finally {
       setLoading(false);

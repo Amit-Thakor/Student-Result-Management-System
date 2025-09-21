@@ -2,86 +2,88 @@
 
 import React from "react";
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Cell,
+  Legend,
 } from "recharts";
-import { Result } from "@/types";
+
+interface StudentResultData {
+  month: string;
+  average: number;
+  highest: number;
+  lowest: number;
+}
 
 interface StudentResultsChartProps {
-  results: Result[];
+  data: StudentResultData[];
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
-    const data = payload[0].payload;
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-        <p className="font-medium text-gray-900">{label}</p>
-        <p className="text-sm text-blue-600">
-          Marks: {data.marks}% (Grade: {data.grade})
-        </p>
+      <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
+        <p className="font-semibold text-gray-900 mb-2">{`Month: ${label}`}</p>
+        {payload.map((entry: any, index: number) => (
+          <p key={index} style={{ color: entry.color }} className="text-sm">
+            {`${entry.name}: ${entry.value}%`}
+          </p>
+        ))}
       </div>
     );
   }
   return null;
 };
 
-const getBarColor = (marks: number) => {
-  if (marks >= 90) return "#10b981"; // green-500
-  if (marks >= 80) return "#3b82f6"; // blue-500
-  if (marks >= 70) return "#f59e0b"; // yellow-500
-  if (marks >= 60) return "#f97316"; // orange-500
-  return "#ef4444"; // red-500
-};
-
-export default function StudentResultsChart({
-  results,
-}: StudentResultsChartProps) {
-  if (!results || results.length === 0) {
-    return (
-      <div className="h-64 flex items-center justify-center text-gray-500">
-        No results data available
-      </div>
-    );
-  }
-
-  const chartData = results.map((result) => ({
-    subject: result.course_code || result.course_name?.substring(0, 8),
-    marks: result.marks,
-    grade: result.grade,
-    fullName: result.course_name,
-  }));
-
+export default function StudentResultsChart({ data }: StudentResultsChartProps) {
   return (
-    <div className="h-64">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={chartData}
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-        >
+    <div className="bg-white rounded-xl p-6 shadow-soft border border-gray-100">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        Performance Trends
+      </h3>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-          <XAxis
-            dataKey="subject"
-            tick={{ fontSize: 12 }}
-            stroke="#6b7280"
-            angle={-45}
-            textAnchor="end"
-            height={60}
+          <XAxis 
+            dataKey="month" 
+            tick={{ fontSize: 12, fill: "#6b7280" }}
+            axisLine={{ stroke: "#e5e7eb" }}
           />
-          <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} stroke="#6b7280" />
+          <YAxis 
+            tick={{ fontSize: 12, fill: "#6b7280" }}
+            axisLine={{ stroke: "#e5e7eb" }}
+          />
           <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey="marks" radius={[4, 4, 0, 0]}>
-            {chartData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={getBarColor(entry.marks)} />
-            ))}
-          </Bar>
-        </BarChart>
+          <Legend />
+          <Line 
+            type="monotone" 
+            dataKey="average" 
+            stroke="#3b82f6" 
+            strokeWidth={2}
+            name="Average"
+            dot={{ fill: "#3b82f6", strokeWidth: 2, r: 4 }}
+          />
+          <Line 
+            type="monotone" 
+            dataKey="highest" 
+            stroke="#10b981" 
+            strokeWidth={2}
+            name="Highest"
+            dot={{ fill: "#10b981", strokeWidth: 2, r: 4 }}
+          />
+          <Line 
+            type="monotone" 
+            dataKey="lowest" 
+            stroke="#ef4444" 
+            strokeWidth={2}
+            name="Lowest"
+            dot={{ fill: "#ef4444", strokeWidth: 2, r: 4 }}
+          />
+        </LineChart>
       </ResponsiveContainer>
     </div>
   );

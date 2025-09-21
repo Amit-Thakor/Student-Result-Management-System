@@ -148,13 +148,52 @@ export const showToast = (
   });
 };
 
-export default {
-  success: showSuccessAlert,
-  error: showErrorAlert,
-  warning: showWarningAlert,
-  info: showInfoAlert,
-  confirm: showConfirmAlert,
-  loading: showLoadingAlert,
-  input: showInputAlert,
-  toast: showToast,
+const loading = (title: string = "Processing...", text?: string) => {
+  return showLoadingAlert(title, text);
 };
+
+const success = (title: string, text?: string) => {
+  return showSuccessAlert(title, text);
+};
+
+const error = (title: string, text?: string) => {
+  return showErrorAlert(title, text);
+};
+
+const warning = (title: string, text?: string) => {
+  return showWarningAlert(title, text);
+};
+
+const info = (title: string, text?: string) => {
+  return showInfoAlert(title, text);
+};
+
+const confirm = (
+  title: string,
+  text?: string,
+  confirmButtonText?: string,
+  cancelButtonText?: string
+) => {
+  return showConfirmAlert(title, text, confirmButtonText, cancelButtonText);
+};
+
+const custom = (options: any) => {
+  return Swal.fire({ ...swalConfig, ...options });
+};
+
+const close = () => {
+  return Swal.close();
+};
+
+const swal = {
+  loading,
+  success,
+  error,
+  warning,
+  info,
+  confirm,
+  custom,
+  close,
+};
+
+export default swal;

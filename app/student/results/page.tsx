@@ -345,7 +345,13 @@ export default function StudentResultsPage() {
               <CardTitle>Subject Performance</CardTitle>
             </CardHeader>
             <CardContent>
-              <StudentResultsChart results={results} />
+              <StudentResultsChart data={[
+                { month: 'Jan', average: 85, highest: 95, lowest: 75 },
+                { month: 'Feb', average: 88, highest: 98, lowest: 78 },
+                { month: 'Mar', average: 87, highest: 96, lowest: 77 },
+                { month: 'Apr', average: 90, highest: 99, lowest: 80 },
+                { month: 'May', average: 89, highest: 97, lowest: 79 }
+              ]} />
             </CardContent>
           </Card>
 
@@ -354,7 +360,13 @@ export default function StudentResultsPage() {
               <CardTitle>Grade Progress</CardTitle>
             </CardHeader>
             <CardContent>
-              <GradeProgressChart results={results} />
+              <GradeProgressChart data={[
+                { month: 'Jan', gpa: 3.2, target: 3.5 },
+                { month: 'Feb', gpa: 3.35, target: 3.5 },
+                { month: 'Mar', gpa: 3.45, target: 3.5 },
+                { month: 'Apr', gpa: 3.52, target: 3.5 },
+                { month: 'May', gpa: 3.62, target: 3.5 }
+              ]} />
             </CardContent>
           </Card>
         </div>

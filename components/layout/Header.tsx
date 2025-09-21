@@ -6,7 +6,7 @@ import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { NotificationButton } from "@/components/ui/NotificationButton";
+import NotificationButton from "@/components/ui/NotificationButton";
 import { useAuth } from "@/lib/auth";
 
 interface HeaderProps {

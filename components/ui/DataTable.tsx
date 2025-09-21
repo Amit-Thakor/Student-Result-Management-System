@@ -263,7 +263,7 @@ export function DataTable({
                 return (
                   <Button
                     key={pageNum}
-                    variant={currentPage === pageNum ? "primary" : "ghost"}
+                    variant={currentPage === pageNum ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setCurrentPage(pageNum)}
                     className="w-8 h-8 p-0"

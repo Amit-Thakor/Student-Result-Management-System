@@ -10,6 +10,10 @@ class ApiClient {
     this.baseURL = baseURL;
   }
 
+  getBaseUrl(): string {
+    return this.baseURL;
+  }
+
   setToken(token: string) {
     this.token = token;
   }
@@ -29,16 +33,8 @@ class ApiClient {
       ...options,
     };
 
-    console.log("🌐 API Request:", {
-      url,
-      method: config.method || 'GET',
-      headers: config.headers,
-      body: options.body
-    });
-
     try {
       const response = await fetch(url, config);
-      console.log("📨 API Response Status:", response.status, response.statusText);
 
       if (!response.ok) {
         const errorData = await response
@@ -50,7 +46,6 @@ class ApiClient {
       }
 
       const data = await response.json();
-      console.log("📦 API Response Data:", data);
 
       // Ensure we return the expected format
       if (data.success !== undefined) {
@@ -67,7 +62,6 @@ class ApiClient {
       // Log error in development only
       if (process.env.NODE_ENV === "development") {
         console.error("API Request Error:", error);
-        console.error("URL:", url);
       }
       throw error;
     }

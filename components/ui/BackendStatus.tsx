@@ -26,7 +26,9 @@ export function BackendStatus({ className }: BackendStatusProps) {
         setStatus('offline');
       }
     } catch (error) {
-      console.log('Backend check failed:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Backend connection failed:', error);
+      }
       setStatus('offline');
     }
     setLastChecked(new Date());
