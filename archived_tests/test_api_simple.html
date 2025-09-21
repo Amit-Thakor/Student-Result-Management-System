@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>API Test</title>
+  </head>
+  <body>
+    <h1>API Test</h1>
+    <button onclick="testLogin()">Test Admin Login</button>
+    <button onclick="testStudentLogin()">Test Student Login</button>
+    <div id="result"></div>
+
+    <script>
+      async function testLogin() {
+        try {
+          const response = await fetch("http://localhost:8000/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: "admin@school.edu",
+              password: "password",
+            }),
+          });
+
+          const data = await response.json();
+          document.getElementById("result").innerHTML =
+            "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+        } catch (error) {
+          document.getElementById("result").innerHTML =
+            "Error: " + error.message;
+        }
+      }
+
+      async function testStudentLogin() {
+        try {
+          const response = await fetch("http://localhost:8000/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: "john.smith@student.edu",
+              password: "password",
+            }),
+          });
+
+          const data = await response.json();
+          document.getElementById("result").innerHTML =
+            "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+        } catch (error) {
+          document.getElementById("result").innerHTML =
+            "Error: " + error.message;
+        }
+      }
+    </script>
+  </body>
+</html>
